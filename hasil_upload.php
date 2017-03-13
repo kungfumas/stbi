@@ -38,15 +38,24 @@ $myArray = explode(" ", $teks); //proses tokenisasi
 
 $filteredarray = array_diff($myArray, $astoplist); //remove stopword
 $st = new IDNstemmer();
+$konek = mysqli_connect("localhost","root","","dbstbi");
+
+ 
+
 foreach($filteredarray as $filteredarray){
    // echo $filteredarray.'<br>';  
 //echo " ".
 if (strlen($filteredarray) >=4)
 	  {
-echo ">>".$filteredarray;
+//echo ">>".$filteredarray;
 $hasil=$st->doStemming($filteredarray);
 //$st->doStemming($filteredarray)
-	   echo " ".$hasil.'<br>';
+	 //  echo " ".$hasil.'<br>';
+ $query = "INSERT INTO dokumen (nama_file, token, tokenstem)
+            VALUES('$nama_file', '$filteredarray', '$hasil')";
+         echo ">>".$query;   
+  mysqli_query($konek, $query);	   
+	   
 	  }
 	  
 }
@@ -84,7 +93,7 @@ if (move_uploaded_file($lokasi_file,"$folder")){
   echo "bisa";
   
 $tekspdf->decodePDF();
-echo $tekspdf->output(); 
+//echo $tekspdf->output(); 
  preproses($tekspdf->output(),$nama_file);
   
  // $pdf    = $parser->parseFile($lokasi_file."/folder/".'$nama_file');  
