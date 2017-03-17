@@ -1,5 +1,5 @@
 <?php		
-			
+require_once('connect.php');//Koneksi ke database			
 function cekKamus($kata){
 	// cari di database	
 	$sql = "SELECT * from tb_katadasar where katadasar ='$kata' LIMIT 1";
@@ -12,13 +12,13 @@ function cekKamus($kata){
 	}
 }
 
-// Hapus Inflection Suffixes (“-lah”, “-kah”, “-ku”, “-mu”, atau “-nya”)
+// Hapus Inflection Suffixes (â€œ-lahâ€, â€œ-kahâ€, â€œ-kuâ€, â€œ-muâ€, atau â€œ-nyaâ€)
 function Del_Inflection_Suffixes($kata){ 
 	$kataAsal = $kata;
 	if(eregi('([km]u|nya|[kl]ah|pun)$',$kata)){ // Cek Inflection Suffixes
 		$__kata = eregi_replace('([km]u|nya|[kl]ah|pun)$','',$kata);
-		if(eregi('([klt]ah|pun)$',$kata)){ // Jika berupa particles (“-lah”, “-kah”, “-tah” atau “-pun”)
-			if(eregi('([km]u|nya)$',$__kata)){ // Hapus Possesive Pronouns (“-ku”, “-mu”, atau “-nya”)
+		if(eregi('([klt]ah|pun)$',$kata)){ // Jika berupa particles (â€œ-lahâ€, â€œ-kahâ€, â€œ-tahâ€ atau â€œ-punâ€)
+			if(eregi('([km]u|nya)$',$__kata)){ // Hapus Possesive Pronouns (â€œ-kuâ€, â€œ-muâ€, atau â€œ-nyaâ€)
 				$__kata__ = eregi_replace('([km]u|nya)$','',$__kata);
 				return $__kata__;
 			}
@@ -59,7 +59,7 @@ function Cek_Prefix_Disallowed_Sufixes($kata){
 	return false;
 }
 
-// Hapus Derivation Suffixes (“-i”, “-an” atau “-kan”)
+// Hapus Derivation Suffixes (â€œ-iâ€, â€œ-anâ€ atau â€œ-kanâ€)
 function Del_Derivation_Suffixes($kata){
 	$kataAsal = $kata;
 	if(preg_match('/(kan)$/',$kata)){ // Cek Suffixes
@@ -80,7 +80,7 @@ function Del_Derivation_Suffixes($kata){
 	return $kataAsal;
 }
 
-// Hapus Derivation Prefix (“di-”, “ke-”, “se-”, “te-”, “be-”, “me-”, atau “pe-”)
+// Hapus Derivation Prefix (â€œdi-â€, â€œke-â€, â€œse-â€, â€œte-â€, â€œbe-â€, â€œme-â€, atau â€œpe-â€)
 function Del_Derivation_Prefix($kata){
 	$kataAsal = $kata;	
 	/* ------ Tentukan Tipe Awalan ------------*/
@@ -104,9 +104,9 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	if(preg_match('/^([tmbp]e)\S{1,}/',$kata)){ //Jika awalannya adalah “te-”, “me-”, “be-”, atau “pe-”
-		/*------------ Awalan “be-”, ---------------------------------------------*/
-		if(preg_match('/^(be)\S{1,}/',$kata)){ // Jika awalan “be-”,
+	if(preg_match('/^([tmbp]e)\S{1,}/',$kata)){ //Jika awalannya adalah â€œte-â€, â€œme-â€, â€œbe-â€, atau â€œpe-â€
+		/*------------ Awalan â€œbe-â€, ---------------------------------------------*/
+		if(preg_match('/^(be)\S{1,}/',$kata)){ // Jika awalan â€œbe-â€,
 			if(preg_match('/^(ber)[aiueo]\S{1,}/',$kata)){ // aturan 1.
 				$__kata = preg_replace('/^(ber)/','',$kata);
 				if(cekKamus($__kata)){			
@@ -170,9 +170,9 @@ function Del_Derivation_Prefix($kata){
 				}
 			}
 		}
-		/*------------end “be-”, ---------------------------------------------*/
-		/*------------ Awalan “te-”, ---------------------------------------------*/
-		if(preg_match('/^(te)\S{1,}/',$kata)){ // Jika awalan “te-”,
+		/*------------end â€œbe-â€, ---------------------------------------------*/
+		/*------------ Awalan â€œte-â€, ---------------------------------------------*/
+		if(preg_match('/^(te)\S{1,}/',$kata)){ // Jika awalan â€œte-â€,
 		
 			if(preg_match('/^(terr)\S{1,}/',$kata)){ 
 				return $kata;
@@ -239,9 +239,9 @@ function Del_Derivation_Prefix($kata){
 				}
 			}
 		}
-		/*------------end “te-”, ---------------------------------------------*/
-		/*------------ Awalan “me-”, ---------------------------------------------*/
-		if(preg_match('/^(me)\S{1,}/',$kata)){ // Jika awalan “me-”,
+		/*------------end â€œte-â€, ---------------------------------------------*/
+		/*------------ Awalan â€œme-â€, ---------------------------------------------*/
+		if(preg_match('/^(me)\S{1,}/',$kata)){ // Jika awalan â€œme-â€,
 	
 			if(preg_match('/^(me)[lrwyv][aiueo]/',$kata)){ // aturan 10
 				$__kata = preg_replace('/^(me)/','',$kata);
@@ -382,10 +382,10 @@ function Del_Derivation_Prefix($kata){
 				}
 			}
 		}
-		/*------------end “me-”, ---------------------------------------------*/
+		/*------------end â€œme-â€, ---------------------------------------------*/
 		
-		/*------------ Awalan “pe-”, ---------------------------------------------*/
-		if(preg_match('/^(pe)\S{1,}/',$kata)){ // Jika awalan “pe-”,
+		/*------------ Awalan â€œpe-â€, ---------------------------------------------*/
+		if(preg_match('/^(pe)\S{1,}/',$kata)){ // Jika awalan â€œpe-â€,
 		
 			if(preg_match('/^(pe)[wy]\S{1,}/',$kata)){ // aturan 20.
 				$__kata = preg_replace('/^(pe)/','',$kata);
@@ -630,8 +630,8 @@ function Del_Derivation_Prefix($kata){
 			}
 		}
 	}
-		/*------------end “pe-”, ---------------------------------------------*/
-		/*------------ Awalan “memper-”, ---------------------------------------------*/
+		/*------------end â€œpe-â€, ---------------------------------------------*/
+		/*------------ Awalan â€œmemper-â€, ---------------------------------------------*/
 	if(preg_match('/^(memper)\S{1,}/',$kata)){				
 		$__kata = preg_replace('/^(memper)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -651,8 +651,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “memper-”, ---------------------------------------------*/
-	/*------------ Awalan “mempel-”, ---------------------------------------------*/
+	/*------------end â€œmemper-â€, ---------------------------------------------*/
+	/*------------ Awalan â€œmempel-â€, ---------------------------------------------*/
 	if(preg_match('/^(mempel)\S{1,}/',$kata)){				
 		$__kata = preg_replace('/^(mempel)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -672,8 +672,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “mempel-”, ---------------------------------------------*/
-	/*------------awalan  “memter-”, ---------------------------------------------*/
+	/*------------end â€œmempel-â€, ---------------------------------------------*/
+	/*------------awalan  â€œmemter-â€, ---------------------------------------------*/
 	if(preg_match('/^(menter)\S{1,}/',$kata)){				
 		$__kata = preg_replace('/^(menter)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -693,8 +693,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “memter-”, ---------------------------------------------*/
-	/*------------awalan “member-”, ---------------------------------------------*/
+	/*------------end â€œmemter-â€, ---------------------------------------------*/
+	/*------------awalan â€œmember-â€, ---------------------------------------------*/
 	if(preg_match('/^(member)\S{1,}/',$kata)){				
 		$__kata = preg_replace('/^(member)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -714,8 +714,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end member-”, ---------------------------------------------*/
-	/*------------awalan “diper-”, ---------------------------------------------*/
+	/*------------end member-â€, ---------------------------------------------*/
+	/*------------awalan â€œdiper-â€, ---------------------------------------------*/
 	if(preg_match('/^(diper)\S{1,}/',$kata)){			
 		$__kata = preg_replace('/^(diper)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -735,8 +735,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “diper-”, ---------------------------------------------*/
-	/*------------awalan “diter-”, ---------------------------------------------*/
+	/*------------end â€œdiper-â€, ---------------------------------------------*/
+	/*------------awalan â€œditer-â€, ---------------------------------------------*/
 	if(preg_match('/^(diter)\S{1,}/',$kata)){			
 		$__kata = preg_replace('/^(diter)/','',$kata);
 		if(cekKamus($__kata)){			
@@ -756,8 +756,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “diter-”, ---------------------------------------------*/
-	/*------------awalan “dipel-”, ---------------------------------------------*/
+	/*------------end â€œditer-â€, ---------------------------------------------*/
+	/*------------awalan â€œdipel-â€, ---------------------------------------------*/
 	if(preg_match('/^(dipel)\S{1,}/',$kata)){			
 		$__kata = preg_replace('/^(dipel)/','l',$kata);
 		if(cekKamus($__kata)){			
@@ -777,8 +777,8 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end dipel-”, ---------------------------------------------*/
-	/*------------kata “terpelajar”(kasus khusus), ---------------------------------------------*/
+	/*------------end dipel-â€, ---------------------------------------------*/
+	/*------------kata â€œterpelajarâ€(kasus khusus), ---------------------------------------------*/
 	if(preg_match('/terpelajar/',$kata)){			
 		$__kata = preg_replace('/terpel/','',$kata);
 		if(cekKamus($__kata)){			
@@ -789,7 +789,7 @@ function Del_Derivation_Prefix($kata){
 			return $__kata__;
 		}
 	}
-	/*------------end “terpelajar”-”, ---------------------------------------------*/
+	/*------------end â€œterpelajarâ€-â€, ---------------------------------------------*/
 	/*------------kata seseorang(kasus khusus), ---------------------------------------------*/
 	if(preg_match('/seseorang/',$kata)){			
 		$__kata = preg_replace('/^(sese)/','',$kata);
@@ -797,7 +797,7 @@ function Del_Derivation_Prefix($kata){
 			return $__kata; // Jika ada balik
 		}
 	}
-	/*------------end seseorang-”, ---------------------------------------------*/
+	/*------------end seseorang-â€, ---------------------------------------------*/
 	/*------------awalan "diber-"---------------------------------------------*/
 	if(preg_match('/^(diber)\S{1,}/',$kata)){			
 		$__kata = preg_replace('/^(diber)/','',$kata);
@@ -873,7 +873,7 @@ function Del_Derivation_Prefix($kata){
 		}
 	}
 	/*------------end "berke-"---------------------------------------------*/
-	/* --- Cek Ada Tidaknya Prefik/Awalan (“di-”, “ke-”, “se-”, “te-”, “be-”, “me-”, atau “pe-”) ------*/
+	/* --- Cek Ada Tidaknya Prefik/Awalan (â€œdi-â€, â€œke-â€, â€œse-â€, â€œte-â€, â€œbe-â€, â€œme-â€, atau â€œpe-â€) ------*/
 	if(preg_match('/^(di|[kstbmp]e)\S{1,}/',$kata) == FALSE){
 		return $kataAsal;
 	}
