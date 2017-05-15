@@ -21,7 +21,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)  
 docs <- tm_map(docs, tolower)  
 docs <- tm_map(docs, removeWords, c("dapat", "yang","adalah","untuk","dan"))  
-docs <- tm_map(docs, PlainTextDocument)  
+
 dtm <- DocumentTermMatrix(docs)   
 dtm   
 tdm <- TermDocumentMatrix(docs)   
