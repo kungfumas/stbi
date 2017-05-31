@@ -7,12 +7,13 @@ install.packages("sentimentr")
 install.packages("plyr")
 install.packages("RTextTools")
 install.packages("devtools")
+require(devtools)
 install.packages("e1071")
 install_github("sentiment140","okugami79")
 install_url("https://cran.r-project.org/src/contrib/Archive/Rstem/Rstem_0.4-1.tar.gz")
 install_url("http://cran.r-project.org/src/contrib/Archive/sentiment/sentiment_0.2.tar.gz")
-install_url("http://cran.r-project.org/src/contrib/Archive/sentiment/");
-require(devtools)
+
+
 library(e1071)
 library(twitteR)
 library(ROAuth)
@@ -103,7 +104,7 @@ class_emo = classify_emotion(some_txt, algorithm="bayes", prior=1.0)
 
 emotion = class_emo[,7]
 
-# substitute NA’s by "unknown"
+# substitute NAâ€™s by "unknown"
 
 emotion[is.na(emotion)] = "unknown"
 
