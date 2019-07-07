@@ -12,10 +12,10 @@ factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
 tknzr = TweetTokenizer()
-consumer_key = 'xxxxxxxx'
-consumer_secret = 'xxxxxx'
-access_token = 'xxxxxx'
-access_secret = 'xxxxxxx'
+consumer_key = 'S4Lxkpr3uZiYPPV6JBr1rdkGG'
+consumer_secret = 'DW3VICKq9BSewnwhxfjUy4AYmV4oBhj4yQF8Vmc9zZqfJYgcfv'
+access_token = '264673762-qkk6VGVTMrw09Hj5aa5fQGheB54cSvE6f2mIclRV'
+access_secret = 'GxmrIbFAPqUzQmEOI83yS5cLF1UGvrAIEFFdTHq69E'
 
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_secret)
