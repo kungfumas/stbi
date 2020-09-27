@@ -1,11 +1,14 @@
+<?php include 'navbar.php';?>
+<br><br><br><br>
 <?php
-$host='localhost';
-$user='root';
-$pass='';
-$database='dbstbi';
 
-$conn=mysql_connect($host,$user,$pass);
-mysql_select_db($database);
+$host='';
+$user='';
+$pass='';
+$database='';
+
+$conn=new mysqli($host,$user,$pass,$database);
+// mysql_select_db($database);
 //hitung index
 mysql_query("TRUNCATE TABLE tbindex");
 $resn = mysql_query("INSERT INTO `tbindex`(`Term`, `DocId`, `Count`) SELECT `token`,`nama_file`,count(*) FROM `dokumen` group by `nama_file`,token");
