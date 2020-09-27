@@ -1,8 +1,10 @@
+<?php include 'navbar.php';?>
+<br><br>
 <?php
 $host='localhost';
-$user='root';
+$user='';
 $pass='';
-$database='dbstbi';
+$database='';
 
 $conn=mysql_connect($host,$user,$pass);
 mysql_select_db($database);
